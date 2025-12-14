@@ -1,0 +1,85 @@
+Using google agent to agent protocol I need to create a supervisor agent which can talk to mail agent. 
+The end user will ask supervisor agent to read the instructions file where a prompt will be given like Send mail to raj@gmail.com
+and ask for an excel file having 10 rows of food recipes. And the supervisor agent should use langgraph agent with gemini-2.5-flash
+to understand the prompt and execute it using mail agent.
+
+the mail agent should be able to read the instructions by the supervisor agent and draft a mail and send it to requested ponit of contact.
+
+I do not have a mail server so you will need to mock mail server.
+
+So there will be 3 servers.
+Stub/mock mail server
+supervisor agent
+mail agent
+
+Technologies
+google agent to agent protocol
+langgraph
+
+use web search in a sub task with haiku to understand google agent to agent protocol and langgraph
+------------------
+
+Clarifying Questions
+
+  Q1: Instructions File Format
+
+  What format should the instructions file be in?
+
+  - Default Answer: Plain text file (.txt) with simple prompt
+
+  # Example: instructions.txt
+  Send mail to raj@gmail.com and ask for an excel file having 10 rows of food recipes.
+
+  Q2: Mail Agent Scope
+
+  Should the Mail Agent also generate the Excel file with recipes, or should there be a separate "Recipe Generator" agent?
+
+  - Mail Agent only drafts the mail and send it to the point of contact asking relevant information. Providing information which is food recipes is the responsibility of the point of contact.
+
+  Q3: A2A Protocol Implementation
+
+  Do you want to use the official a2a-python SDK or implement a lightweight custom A2A-compliant layer?
+
+  - Default Answer: Use official SDK (pip install a2a-python)
+
+  Q4: LLM Provider for Mail Agent
+
+  The Supervisor uses Gemini 2.5 Flash. Should the Mail Agent also use Gemini, or a different model?
+
+  - Default Answer: Same model (Gemini 2.5 Flash) for consistency
+
+  Q5: Mock Mail Server Scope
+
+  What level of mock implementation do you need?
+
+  - Alternative: Full SMTP mock server (e.g., using aiosmtpd)
+
+  Q6: Persistence Requirements
+
+  Should emails and task history be persisted across restarts?
+
+  - Default Answer: No persistence (in-memory only for demo purposes)
+
+  ---
+  Questions for Improving Quality/Experience
+
+  Q7: Error Handling Strategy
+
+  How should failures be handled?
+  - Retry logic with exponential backoff? - yes
+  - Notification to supervisor on failure? - yes
+
+  Q8: Observability
+
+  Do you want logging/tracing integration?
+  - Integration with LangSmith for graph visualization - yes
+
+  Q9: Authentication Between Agents
+
+  For this demo, should agents authenticate with each other?
+  - Default Answer: No auth (simplified for demo)
+
+  Q10: Excel Generation Approach
+
+  How should recipes be generated?
+  - This is the responsibility of the point of contact person. He will reply to the mail providing this information or any piece of inforamtion which is requested
